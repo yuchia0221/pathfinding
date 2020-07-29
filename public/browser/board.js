@@ -6,7 +6,7 @@ function Board(height, width) {
 	this.target = null; // Target of the path
 	this.pathDirection = null; // The direction of the path
 	this.currentAlgorithms; // The Algorithm user choose
-	this.wallNode - List = []; // Record the id of the wall node
+	this.wallNode = []; // Record the id of the wall node
 	this.boardTwoD = [];
 }
 
