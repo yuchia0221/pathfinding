@@ -32,9 +32,15 @@ Board.prototype.create_grid = function () {
 };
 
 Board.prototype.find_node_class = function (row, column) {
-    if (row === Math.floor(this.height / 2) && column === Math.floor(this.width / 4)) {
+    if (
+        row === Math.floor(this.height / 2) &&
+        column === Math.floor(this.width / 4)
+    ) {
         return "start";
-    } else if (row === Math.floor(this.height / 2) && column === Math.floor((3 * this.width) / 4)) {
+    } else if (
+        row === Math.floor(this.height / 2) &&
+        column === Math.floor((3 * this.width) / 4)
+    ) {
         return "target";
     } else {
         return "unvisited";
@@ -66,8 +72,8 @@ Board.clearPath = function () {};
 
 Board.clearBoard = function () {};
 
-let width = 50;
-let height = 13;
+let width = 57;
+let height = 24;
 // let width = Math.floor(document.getElementById("board").offsetWidth / 25);
 // let height = Math.floor(document.getElementById("board").offsetHeight / 20);
 let newBoard = new Board(height, width);
