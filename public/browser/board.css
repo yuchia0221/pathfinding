@@ -1,0 +1,9 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.unvisited {
+    background-color: black;
+    border: solid 1px black
+}
