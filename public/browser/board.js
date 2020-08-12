@@ -1,5 +1,3 @@
-//const Node = require("./node");
-// const dfs = require("http://localhost:8000/public/browser/Algorithms/DFS.js");
 import Node from "http://localhost:8000/public/browser/node.js";
 import dfs from "http://localhost:8000/public/browser/Algorithms/DFS.js";
 
@@ -15,6 +13,10 @@ function Board(height, width) {
     this.boardTwoD = [];
     this.path = [];
     this.visitedList = [];
+    this.mousedown = false;
+    this.draggingStart = false;
+    this.draggingTarget = false;
+    this.previousStatus = "";
 }
 
 Board.prototype.initialize = function () {
@@ -42,13 +44,19 @@ Board.prototype.set_node = function (row, column, father) {
 
 Board.prototype.create_grid = function () {
     let tableContent = "";
+    // this.width = Math.floor(screen.width / 25);
+    // this.height = Math.floor(screen.height / 20);
     for (var row = 0; row < this.height; row++) {
         let rowContent = `<tr id="row${row}">`;
         for (var column = 0; column < this.width; column++) {
             // Create table's html
             let nodeID = `${row}-${column}`;
             let nodeClass = this.find_node_class(row, column);
-            rowContent += `<td id="${nodeID}" class="${nodeClass}"></td>`;
+            if (nodeClass === "start" || nodeClass === "target") {
+                rowContent += `<td id="${nodeID}" class="${nodeClass}"></td>`;
+            } else {
+                rowContent += `<td id="${nodeID}" class="${nodeClass}"></td>`;
+            }
         }
         tableContent += `${rowContent}</tr>`;
     }
@@ -71,26 +79,65 @@ Board.prototype.add_event_listener = function () {
         for (var column = 0; column < this.width; column++) {
             let nodeID = `${row}-${column}`;
             let currentNode = document.getElementById(nodeID);
-
-            currentNode.addEventListener("click", (event) => {
-                let status = currentNode.className;
-                if (status === "unvisited") {
-                    currentNode.className = "wall";
-
-                    var currentNodeRow = parseInt(currentNode.id.split("-")[0]);
-                    var currentNodeColumn = parseInt(currentNode.id.split("-")[1]);
-
-                    this.boardTwoD[currentNodeRow][currentNodeColumn].status = "wall";
-                    console.log(this.boardTwoD);
-                } else if (status === "wall") {
-                    currentNode.className = "unvisited";
-                    var currentNodeRow = parseInt(currentNode.id.split("-")[0]);
-                    var currentNodeColumn = parseInt(currentNode.id.split("-")[1]);
-                    this.boardTwoD[currentNodeRow][currentNodeColumn].status = "unvisited";
+            currentNode.addEventListener("mousedown", (event) => {
+                this.mousedown = true;
+                if (currentNode.className === "start") {
+                    this.draggingStart = true;
+                } else if (currentNode.className === "target") {
+                    this.draggingTarget = true;
+                } else {
+                    this.change_Node_Status(currentNode);
                 }
+            });
+            currentNode.addEventListener("mouseover", (event) => {
+                this.previousStatus = currentNode.className;
+                console.log(this.previousStatus);
+                if (this.draggingStart && this.mousedown) {
+                    currentNode.className = "start";
+                    this.boardTwoD[parseInt(currentNode.id.split("-")[0])][
+                        parseInt(currentNode.id.split("-")[1])
+                    ].status = "start";
+                    this.start = this.boardTwoD[parseInt(currentNode.id.split("-")[0])][
+                        parseInt(currentNode.id.split("-")[1])
+                    ];
+                } else if (this.draggingTarget && this.mousedown) {
+                    currentNode.className = "target";
+                    this.boardTwoD[parseInt(currentNode.id.split("-")[0])][
+                        parseInt(currentNode.id.split("-")[1])
+                    ].status = "target";
+                    this.target = this.boardTwoD[parseInt(currentNode.id.split("-")[0])][
+                        parseInt(currentNode.id.split("-")[1])
+                    ];
+                } else if (this.mousedown) {
+                    this.change_Node_Status(currentNode);
+                }
+            });
+            currentNode.addEventListener("mouseout", (event) => {
+                if (this.draggingTarget || this.draggingStart) {
+                    if (
+                        (this.mousedown && this.previousStatus != "start" && this.draggingStart) ||
+                        (this.previousStatus != "target" && this.draggingTarget)
+                    ) {
+                        currentNode.className = this.previousStatus;
+                        this.boardTwoD[parseInt(currentNode.id.split("-")[0])][
+                            parseInt(currentNode.id.split("-")[1])
+                        ].status = this.previousStatus;
+                    } else if (this.mousedown) {
+                        currentNode.className = "unvisited";
+                        this.boardTwoD[parseInt(currentNode.id.split("-")[0])][
+                            parseInt(currentNode.id.split("-")[1])
+                        ].status = "unvisited";
+                    }
+                }
+            });
+            currentNode.addEventListener("mouseup", (event) => {
+                this.mousedown = false;
+                this.draggingStart = false;
+                this.draggingTarget = false;
             });
         }
     }
+
     let dfs_button = document.getElementById("dfs_button");
     dfs_button.addEventListener("click", (event) => {
         this.drawShortPath();
@@ -99,11 +146,8 @@ Board.prototype.add_event_listener = function () {
 
 Board.prototype.findPath = function (algorithmType) {
     var path = [];
-
     if (algorithmType === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
-        console.log(this.boardTwoD);
-
         // success
         if (result === this.target) {
             var currentnode = this.boardTwoD[this.target.row][this.target.column];
@@ -128,7 +172,6 @@ Board.prototype.findPath = function (algorithmType) {
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 Board.prototype.drawVisitedNode = async function () {
-    console.log("drawVisited");
     for (var i = 0; i < this.visitedList.length; i++) {
         await sleep(10);
         if (document.getElementById(this.visitedList[i].location).className != "target") {
@@ -140,7 +183,6 @@ Board.prototype.drawVisitedNode = async function () {
 Board.prototype.drawShortPath = async function () {
     this.path = newBoard.findPath("DFS");
     const result = await this.drawVisitedNode();
-    console.log("drawPath");
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
         if (currentNode.className === "visited") {
@@ -154,9 +196,22 @@ Board.clearPath = function () {};
 
 Board.clearBoard = function () {};
 
-let width = 57;
-let height = 24;
-// let width = Math.floor(document.getElementById("board").offsetWidth / 25);
-// let height = Math.floor(document.getElementById("board").offsetHeight / 20);
+Board.prototype.change_Node_Status = function (currentNode) {
+    let status = currentNode.className;
+    if (status === "unvisited") {
+        currentNode.className = "wall";
+        var currentNodeRow = parseInt(currentNode.id.split("-")[0]);
+        var currentNodeColumn = parseInt(currentNode.id.split("-")[1]);
+        this.boardTwoD[currentNodeRow][currentNodeColumn].status = "wall";
+    } else if (status === "wall") {
+        currentNode.className = "unvisited";
+        var currentNodeRow = parseInt(currentNode.id.split("-")[0]);
+        var currentNodeColumn = parseInt(currentNode.id.split("-")[1]);
+        this.boardTwoD[currentNodeRow][currentNodeColumn].status = "unvisited";
+    }
+};
+
+let height = Math.floor(screen.height / 40);
+let width = Math.floor(screen.width / 25);
 let newBoard = new Board(height, width);
 newBoard.initialize();

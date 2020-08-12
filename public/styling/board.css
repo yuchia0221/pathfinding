@@ -46,6 +46,7 @@
     background-repeat: no-repeat;
     background-size: contain;
 }
+
 .target {
     background-image: url(circle.svg);
     background-position: center;

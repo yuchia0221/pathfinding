@@ -1,9 +1,3 @@
-// const Node = require("./public/browser/node");
-// let n = new Node(1, 2, "teah", "yoyoyo");
-// console.log(n.child);
-// import Node from "./public/browser/node";
-// import dfs from "./Algorithms/DFS";
-
 const express = require("express");
 const app = express();
 

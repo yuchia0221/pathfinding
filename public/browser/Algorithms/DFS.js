@@ -32,7 +32,6 @@ function setChild(current_node, boardTwoD, visitedList) {
             boardTwoD[row][column].status = "visited";
         }
     }
-    console.log("Find Chlid");
     // right
     if (current_node.column < boardWidth - 1) {
         if (
@@ -45,7 +44,6 @@ function setChild(current_node, boardTwoD, visitedList) {
             boardTwoD[current_node.row][current_node.column + 1].father = current_node;
         }
     }
-
     // up
     if (current_node.row > 0) {
         if (
