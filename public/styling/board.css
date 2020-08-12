@@ -56,3 +56,17 @@ td {
     width: 25px;
     height: 25px;
 }
+
+.visited {
+    background-color: #5cfaff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.shortpath {
+    background-color: red;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
