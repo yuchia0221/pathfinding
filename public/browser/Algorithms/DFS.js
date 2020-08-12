@@ -15,7 +15,7 @@ function dfs(start, target, boardTwoD, visitedList) {
     return null;
 }
 
-function setChild(current_node, boardTwoD, visitedList) {
+function setChild(currentNode, boardTwoD, visitedList) {
     var boardHeight = boardTwoD.length;
     var boardWidth = boardTwoD[0].length;
     var findIt = false;
@@ -26,29 +26,29 @@ function setChild(current_node, boardTwoD, visitedList) {
     }
 
     // right
-    if (current_node.column < boardWidth - 1) {
+    if (currentNode.column < boardWidth - 1) {
         if (
-            boardTwoD[current_node.row][current_node.column + 1].status === "unvisited" ||
-            boardTwoD[current_node.row][current_node.column + 1].status === "target"
+            boardTwoD[currentNode.row][currentNode.column + 1].status === "unvisited" ||
+            boardTwoD[currentNode.row][currentNode.column + 1].status === "target"
         ) {
             findIt = true;
-            current_node.child.push(boardTwoD[current_node.row][current_node.column + 1]);
-            visitedList.push(boardTwoD[current_node.row][current_node.column + 1]);
-            changeStatus(current_node.row, current_node.column + 1);
-            boardTwoD[current_node.row][current_node.column + 1].father = current_node;
+            currentNode.child.push(boardTwoD[currentNode.row][currentNode.column + 1]);
+            visitedList.push(boardTwoD[currentNode.row][currentNode.column + 1]);
+            changeStatus(currentNode.row, currentNode.column + 1);
+            boardTwoD[currentNode.row][currentNode.column + 1].father = currentNode;
         }
     }
     // up
-    if (current_node.row > 0) {
+    if (currentNode.row > 0) {
         if (
-            boardTwoD[current_node.row - 1][current_node.column].status === "unvisited" ||
-            boardTwoD[current_node.row - 1][current_node.column].status === "target"
+            boardTwoD[currentNode.row - 1][currentNode.column].status === "unvisited" ||
+            boardTwoD[currentNode.row - 1][currentNode.column].status === "target"
         ) {
-            current_node.child.push(boardTwoD[current_node.row - 1][current_node.column]);
-            boardTwoD[current_node.row - 1][current_node.column].father = current_node;
+            currentNode.child.push(boardTwoD[currentNode.row - 1][currentNode.column]);
+            boardTwoD[currentNode.row - 1][currentNode.column].father = currentNode;
             if (!findIt) {
-                visitedList.push(boardTwoD[current_node.row - 1][current_node.column]);
-                changeStatus(current_node.row - 1, current_node.column);
+                visitedList.push(boardTwoD[currentNode.row - 1][currentNode.column]);
+                changeStatus(currentNode.row - 1, currentNode.column);
 
                 findIt = true;
             }
@@ -56,16 +56,16 @@ function setChild(current_node, boardTwoD, visitedList) {
     }
 
     // down
-    if (current_node.row < boardHeight - 1) {
+    if (currentNode.row < boardHeight - 1) {
         if (
-            boardTwoD[current_node.row + 1][current_node.column].status === "unvisited" ||
-            boardTwoD[current_node.row + 1][current_node.column].status === "target"
+            boardTwoD[currentNode.row + 1][currentNode.column].status === "unvisited" ||
+            boardTwoD[currentNode.row + 1][currentNode.column].status === "target"
         ) {
-            current_node.child.push(boardTwoD[current_node.row + 1][current_node.column]);
-            boardTwoD[current_node.row + 1][current_node.column].father = current_node;
+            currentNode.child.push(boardTwoD[currentNode.row + 1][currentNode.column]);
+            boardTwoD[currentNode.row + 1][currentNode.column].father = currentNode;
             if (!findIt) {
-                visitedList.push(boardTwoD[current_node.row + 1][current_node.column]);
-                changeStatus(current_node.row + 1, current_node.column);
+                visitedList.push(boardTwoD[currentNode.row + 1][currentNode.column]);
+                changeStatus(currentNode.row + 1, currentNode.column);
 
                 findIt = true;
             }
@@ -73,23 +73,23 @@ function setChild(current_node, boardTwoD, visitedList) {
     }
 
     // left
-    if (current_node.column > 0) {
+    if (currentNode.column > 0) {
         if (
-            boardTwoD[current_node.row][current_node.column - 1].status === "unvisited" ||
-            boardTwoD[current_node.row][current_node.column - 1].status === "target"
+            boardTwoD[currentNode.row][currentNode.column - 1].status === "unvisited" ||
+            boardTwoD[currentNode.row][currentNode.column - 1].status === "target"
         ) {
-            current_node.child.push(boardTwoD[current_node.row][current_node.column - 1]);
-            boardTwoD[current_node.row][current_node.column - 1].father = current_node;
+            currentNode.child.push(boardTwoD[currentNode.row][currentNode.column - 1]);
+            boardTwoD[currentNode.row][currentNode.column - 1].father = currentNode;
             if (!findIt) {
-                visitedList.push(boardTwoD[current_node.row][current_node.column - 1]);
-                changeStatus(current_node.row, current_node.column - 1);
+                visitedList.push(boardTwoD[currentNode.row][currentNode.column - 1]);
+                changeStatus(currentNode.row, currentNode.column - 1);
 
                 findIt = true;
             }
         }
     }
-    if ((current_node.status = "unvisited")) {
-        current_node.status = "visited";
+    if ((currentNode.status = "unvisited")) {
+        currentNode.status = "visited";
     }
 }
 export default dfs;
