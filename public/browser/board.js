@@ -91,7 +91,6 @@ Board.prototype.add_event_listener = function () {
             });
             currentNode.addEventListener("mouseover", (event) => {
                 this.previousStatus = currentNode.className;
-                console.log(this.previousStatus);
                 if (this.draggingStart && this.mousedown) {
                     currentNode.className = "start";
                     this.boardTwoD[parseInt(currentNode.id.split("-")[0])][
