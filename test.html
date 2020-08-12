@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-    <body>
-        <h1>Hello World</h1>
-    </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="public/browser/board.css"
+		/>
+	</head>
+	<body id="test">
+		<h1>Hello World</h1>
+		<button id="dfs_button">Start DFS</button>
+		<table id="board"></table>
+	</body>
+	<script type="module" src="./public/browser/board.js"></script>
+	<script type="module" src="./public/browser/Algorithms/DFS.js"></script>
 </html>
