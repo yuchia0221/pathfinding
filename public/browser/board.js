@@ -67,21 +67,6 @@ Board.prototype.create_grid = function () {
 };
 
 Board.prototype.find_node_class = function (row, column) {
-<<<<<<< HEAD
-    if (
-        row === Math.floor(this.height / 2) &&
-        column === Math.floor(this.width / 4)
-    ) {
-        return "start";
-    } else if (
-        row === Math.floor(this.height / 2) &&
-        column === Math.floor((3 * this.width) / 4)
-    ) {
-        return "target";
-    } else {
-        return "unvisited";
-    }
-=======
 	if (
 		row === Math.floor(this.height / 2) &&
 		column === Math.floor(this.width / 4)
@@ -95,7 +80,6 @@ Board.prototype.find_node_class = function (row, column) {
 	} else {
 		return "unvisited";
 	}
->>>>>>> a9a3eeb2fcb067219e6a8a779cf01c3b362d7cfe
 };
 
 Board.prototype.add_event_listener = function () {
