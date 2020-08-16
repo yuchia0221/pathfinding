@@ -145,14 +145,16 @@ Board.prototype.add_event_listener = function () {
 
 Board.prototype.findPath = function (algorithmType) {
     var path = [];
+
     if (algorithmType === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
-        if (result === this.target) {
-            var currentnode = this.boardTwoD[this.target.row][this.target.column];
+        if (result === true) {
+            var currentnode = this.target;
+            var counter = 0;
             while (true) {
                 path.unshift(currentnode);
-                if (currentnode != this.start) {
+                if (currentnode.location != this.start.location) {
                     currentnode = currentnode.father;
                 } else {
                     break;
@@ -163,7 +165,6 @@ Board.prototype.findPath = function (algorithmType) {
         } else {
             return "No such path";
         }
-        // fail
     }
     return null;
 };
