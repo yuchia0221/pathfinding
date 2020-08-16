@@ -1,5 +1,6 @@
 import Node from "http://localhost:8000/public/browser/node.js";
 import dfs from "http://localhost:8000/public/browser/Algorithms/DFS.js";
+import bfs from "http://localhost:8000/public/browser/Algorithms/BFS.js";
 
 function Board(height, width) {
     this.height = height; // Height of the board
@@ -141,6 +142,10 @@ Board.prototype.add_event_listener = function () {
     dfs_button.addEventListener("click", (event) => {
         this.drawShortPath();
     });
+    let bfs_button = document.getElementById("bfs_button");
+    bfs_button.addEventListener("click", (event) => {
+        this.a();
+    });
 };
 
 Board.prototype.findPath = function (algorithmType) {
@@ -154,16 +159,14 @@ Board.prototype.findPath = function (algorithmType) {
                 path.unshift(currentnode);
                 if (currentnode != this.start) {
                     currentnode = currentnode.father;
-                } else {
-                    break;
                 }
+                path.unshift(this.start);
+                return path;
             }
-            path.unshift(this.start);
-            return path;
-        } else {
-            return "No such path";
         }
-        // fail
+    } else if (algorithmType === "BFS") {
+        var res = bfs(this.start, this.target, this.boardTwoD, this.visitedList);
+        console.log(res);
     }
     return null;
 };
@@ -184,6 +187,28 @@ Board.prototype.drawShortPath = async function () {
     const result = await this.drawVisitedNode();
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
+        if (currentNode.className === "visited") {
+            await sleep(30);
+            currentNode.className = "shortpath";
+        }
+    }
+};
+
+Board.prototype.a = async function () {
+    newBoard.findPath("BFS");
+    // console.log(this.target.father);
+    const result = await newBoard.drawVisitedNode();
+    var currentNode = this.boardTwoD[this.target.row][this.target.column];
+    var shortpath = Array(currentNode);
+
+    while (currentNode.location != this.start.location) {
+        let node = currentNode.father;
+        shortpath.unshift(node);
+        currentNode = node;
+    }
+    console.log(shortpath);
+    for (var i = 0; i < shortpath.length; i++) {
+        let currentNode = document.getElementById(shortpath[i].location);
         if (currentNode.className === "visited") {
             await sleep(30);
             currentNode.className = "shortpath";
