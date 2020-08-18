@@ -141,6 +141,9 @@ Board.prototype.add_event_listener = function () {
     dfs_button.addEventListener("click", (event) => {
         this.drawShortPath();
     });
+
+    let adjustSpeed = document.getElementById("adjustspeed");
+    console.log(adjustSpeed.textContent);
 };
 
 Board.prototype.findPath = function (algorithmType) {
@@ -172,8 +175,18 @@ Board.prototype.findPath = function (algorithmType) {
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 Board.prototype.drawVisitedNode = async function () {
+    let userSpeed = document.getElementById("adjustspeed").textContent;
+    let speed = 10;
+    if (userSpeed === "Speed: Fast") {
+        speed = 10;
+    } else if (userSpeed === "Speed: Average") {
+        speed = 50;
+    } else if (userSpeed === "Speed: Slow") {
+        speed = 100;
+    }
+
     for (var i = 0; i < this.visitedList.length; i++) {
-        await sleep(10);
+        await sleep(speed);
         if (document.getElementById(this.visitedList[i].location).className != "target") {
             document.getElementById(this.visitedList[i].location).className = "visited";
         }
