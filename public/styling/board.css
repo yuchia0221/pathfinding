@@ -1,18 +1,24 @@
 @import url("//db.onlinewebfonts.com/c/2547970600ac97f5d9bd0ebcc1f2dd9d?family=Font + Awesome + 5 + Brands");
 @import url("//db.onlinewebfonts.com/c/30c8e877e175d19bcbe6f8d90d1a4bc1?family=Font+Awesome+5+Clouds+Solid");
+
 * {
     position: relative;
     font-family: Font Awesome 5 Brands;
     vertical-align: bottom;
-    /* border: solid 1px; */
+    border: solid 1px;
 }
 
-/* 以下是導覽列 */
+/* navbar */
 
 .navbar {
     background-color: #090d35;
     vertical-align: bottom;
 }
+.navbar-nav > li {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .nav-link {
     background-color: #090d35;
     border-radius: 5px;
@@ -22,11 +28,15 @@
     font-size: 14px;
 }
 .navbar-btn {
+    font-weight: 600;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.904);
     background-color: #f4bc2b;
-    margin: 0px;
-    padding: 10%;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 5px;
 }
+
 .nav-link:hover {
     color: #f4bc2b;
 }
@@ -34,19 +44,20 @@
     color: black;
     background-color: #f4bc2b;
 } */
-.changeOptioncolor {
-    color: black;
-    background-color: #f4bc2b;
-}
 
 .navbar-brand {
     color: rgba(255, 255, 255, 0.904);
     font-weight: 600;
 }
+/* 選項的間隔可以愈網線系統嗎 */
 .nav-item {
-    margin-left: 10px;
-    margin-right: 21px;
+    min-width: 0px;
     /* padding-right: 3.5%; */
+}
+
+[aria-expanded="true"].nav-link {
+    background-color: #f4bc2b;
+    color: #333;
 }
 
 .dropdown-menu {
@@ -71,9 +82,7 @@
     /* 連結底線刪除 */
     text-decoration: none;
 }
-a[aria-expanded="true"] {
-    background-color: #42dca3;
-}
+
 /* 以下是board */
 #mainGrid {
     margin-top: 200px;
@@ -197,6 +206,11 @@ td {
         transform: scale(1);
     }
 }
+/* @media (min-width: 768px) {
+    .navbar-nav {
+        float: left;
+    }
+} */
 @font-face {
     font-family: "Font Awesome 5 Brands";
     src: url("//db.onlinewebfonts.com/t/2547970600ac97f5d9bd0ebcc1f2dd9d.eot");
