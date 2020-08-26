@@ -179,14 +179,13 @@ Board.prototype.add_event_listener = function () {
     let clearPath_button = document.getElementById("startButtonClearPath");
     clearPath_button.addEventListener("click", (event) => {
         if (this.Drawing === false) {
-            this.clearPath();
+            this.clear_path();
         }
     });
 };
 
 Board.prototype.find_path = function () {
-    var path = [];
-    if (algorithmType === "DFS") {
+    if (this.currentAlgorithms === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
         if (result === true) {
@@ -231,7 +230,7 @@ Board.prototype.draw_visited_node = async function () {
 };
 
 Board.prototype.draw_short_path = async function () {
-    this.path = newBoard.find_path(this.currentAlgorithms);
+    newBoard.find_path(this.currentAlgorithms);
     const result = await this.draw_visited_node();
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
@@ -246,7 +245,6 @@ Board.prototype.draw_short_path = async function () {
 Board.clear_path = function () {};
 
 Board.prototype.clear_board = function () {
-    console.log("hi");
     this.boardTwoD.forEach((row) => {
         row.forEach((currentNode) => {
             let currentHTMLNode = document.getElementById(currentNode.location);
