@@ -5,7 +5,7 @@ function Node(r, c, status, father) {
     this.status = status;
     this.father = father;
     this.child = [];
+    this.childResult = "get";
 }
 
-//module.exports = Node;
 export default Node;

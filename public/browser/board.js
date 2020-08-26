@@ -169,18 +169,22 @@ Board.prototype.add_event_listener = function () {
     driver_button.addEventListener("click", (event) => {
         this.drawShortPath();
     });
+
+    let adjustSpeed = document.getElementById("adjustspeed");
+    console.log(adjustSpeed.textContent);
 };
 
 Board.prototype.findPath = function () {
     var path = [];
-    if (this.currentAlgorithms === "DFS") {
+    if (algorithmType === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
-        if (result === this.target) {
-            var currentnode = this.boardTwoD[this.target.row][this.target.column];
+        if (result === true) {
+            var currentnode = this.target;
+            var counter = 0;
             while (true) {
                 path.unshift(currentnode);
-                if (currentnode != this.start) {
+                if (currentnode.location != this.start.location) {
                     currentnode = currentnode.father;
                 } else {
                     break;
@@ -191,7 +195,6 @@ Board.prototype.findPath = function () {
         } else {
             return "No such path";
         }
-        // fail
     }
     return null;
 };
@@ -199,8 +202,18 @@ Board.prototype.findPath = function () {
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 Board.prototype.drawVisitedNode = async function () {
+    let userSpeed = document.getElementById("adjustspeed").textContent;
+    let speed = 10;
+    if (userSpeed === "Speed: Fast") {
+        speed = 10;
+    } else if (userSpeed === "Speed: Average") {
+        speed = 50;
+    } else if (userSpeed === "Speed: Slow") {
+        speed = 100;
+    }
+
     for (var i = 0; i < this.visitedList.length; i++) {
-        await sleep(10);
+        await sleep(speed);
         if (document.getElementById(this.visitedList[i].location).className != "target") {
             document.getElementById(this.visitedList[i].location).className = "visited";
         }
