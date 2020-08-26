@@ -5,10 +5,9 @@ import bfs from "http://localhost:8000/public/browser/Algorithms/BFS.js";
 function Board(height, width) {
     this.height = height; // Height of the board
     this.width = width; // Width of the board
-    this.speed = "normal"; // The speed of running the path 'fast' 'normal' 'slow'
+    this.speed = "fast"; // The speed of running the path 'fast' 'normal' 'slow'
     this.start = new Node(Math.floor(this.height / 2), Math.floor(this.width / 4), "start", null); // Start point of the path
     this.target = new Node(Math.floor(this.height / 2), Math.floor((3 * this.width) / 4), "target", null); // Target of the path
-    this.pathDirection = null; // The direction of the path
     this.currentAlgorithms; // The Algorithm user choose
     this.wallNode = []; // Record the id of the wall node
     this.boardTwoD = [];
@@ -18,6 +17,7 @@ function Board(height, width) {
     this.draggingStart = false;
     this.draggingTarget = false;
     this.previousStatus = "";
+    this.Drawing = false;
 }
 
 Board.prototype.initialize = function () {
@@ -27,7 +27,8 @@ Board.prototype.initialize = function () {
 };
 
 Board.prototype.set_twoD_board = function () {
-    //Only pushing node to the 2DboardArray
+    // Only pushing node to the 2DboardArray
+    this.boardTwoD = [];
     for (var i = 0; i < this.height; i++) {
         var temp_row = [];
         for (var j = 0; j < this.width; j++) {
@@ -87,7 +88,7 @@ Board.prototype.add_event_listener = function () {
                 } else if (currentNode.className === "target") {
                     this.draggingTarget = true;
                 } else {
-                    this.change_Node_Status(currentNode);
+                    this.change_node_status(currentNode);
                 }
             });
             currentNode.addEventListener("mouseover", (event) => {
@@ -109,7 +110,7 @@ Board.prototype.add_event_listener = function () {
                         parseInt(currentNode.id.split("-")[1])
                     ];
                 } else if (this.mousedown) {
-                    this.change_Node_Status(currentNode);
+                    this.change_node_status(currentNode);
                 }
             });
             currentNode.addEventListener("mouseout", (event) => {
@@ -169,20 +170,27 @@ Board.prototype.add_event_listener = function () {
 
     let driver_button = document.getElementById("driverButton");
     driver_button.addEventListener("click", (event) => {
-        this.drawShortPath();
+        this.draw_short_path();
     });
 
     let adjustSpeed = document.getElementById("adjustspeed");
     console.log(adjustSpeed.textContent);
+
+
+    let clearPath_button = document.getElementById("startButtonClearPath");
+    clearPath_button.addEventListener("click", (event) => {
+        if (this.Drawing === false) {
+            this.clear_path();
+        }
+    });
 };
 
-Board.prototype.findPath = function () {
-    var path = [];
+Board.prototype.find_path = function () {
     if (this.currentAlgorithms === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
-        if (result === this.target) {
-            var currentnode = this.boardTwoD[this.target.row][this.target.column];
+        if (result === true) {
+            var currentNode = this.boardTwoD[this.target.row][this.target.column];
             while (currentNode.location != this.start.location) {
                 let node = currentNode.father;
                 this.path.unshift(node);
@@ -203,7 +211,7 @@ Board.prototype.findPath = function () {
 
 const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-Board.prototype.drawVisitedNode = async function () {
+Board.prototype.draw_visited_node = async function () {
     let userSpeed = document.getElementById("adjustspeed").textContent;
     let speed = 10;
     if (userSpeed === "Speed: Fast") {
@@ -216,15 +224,15 @@ Board.prototype.drawVisitedNode = async function () {
 
     for (var i = 0; i < this.visitedList.length; i++) {
         await sleep(speed);
-        if (document.getElementById(this.visitedList[i].location).className != "target") {
+        if (document.getElementById(this.visitedList[i].location).className != "target" && document.getElementById(this.visitedList[i].location).className != "start") {
             document.getElementById(this.visitedList[i].location).className = "visited";
         }
     }
 };
 
-Board.prototype.drawShortPath = async function () {
-    this.path = newBoard.findPath(this.currentAlgorithms);
-    const result = await this.drawVisitedNode();
+Board.prototype.draw_short_path = async function () {
+    newBoard.find_path(this.currentAlgorithms);
+    const result = await this.draw_visited_node();
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
         if (currentNode.className === "visited") {
@@ -232,13 +240,24 @@ Board.prototype.drawShortPath = async function () {
             currentNode.className = "shortpath";
         }
     }
+    this.Drawing = false;
 };
 
-Board.clearPath = function () {};
+Board.clear_path = function () {};
 
-Board.clearBoard = function () {};
+Board.prototype.clear_board = function () {
+    this.boardTwoD.forEach((row) => {
+        row.forEach((currentNode) => {
+            let currentHTMLNode = document.getElementById(currentNode.location);
+            if (currentNode.status === "wall") {
+                currentNode.status = "unvisited";
+                currentHTMLNode.className = "unvisited";
+            }
+        });
+    });
+};
 
-Board.prototype.change_Node_Status = function (currentNode) {
+Board.prototype.change_node_status = function (currentNode) {
     let status = currentNode.className;
     if (status === "unvisited") {
         currentNode.className = "wall";
