@@ -18,6 +18,7 @@ function Board(height, width) {
     this.draggingTarget = false;
     this.previousStatus = "";
     this.Drawing = false;
+    this.showingPath = false;
 }
 
 Board.prototype.initialize = function () {
@@ -28,7 +29,7 @@ Board.prototype.initialize = function () {
 
 Board.prototype.set_twoD_board = function () {
     // Only pushing node to the 2DboardArray
-    this.boardTwoD = [];
+    this.boardTwoD = Array();
     for (var i = 0; i < this.height; i++) {
         var temp_row = [];
         for (var j = 0; j < this.width; j++) {
@@ -67,9 +68,16 @@ Board.prototype.create_grid = function () {
 };
 
 Board.prototype.find_node_class = function (row, column) {
-    if (row === Math.floor(this.height / 2) && column === Math.floor(this.width / 4)) {
+    // if (row === Math.floor(this.height / 2) && column === Math.floor(this.width / 4)) {
+    //     return "start";
+    // } else if (row === Math.floor(this.height / 2) && column === Math.floor((3 * this.width) / 4)) {
+    //     return "target";
+    // } else {
+    //     return "unvisited";
+    // }
+    if (row === this.start.row && column === this.start.column) {
         return "start";
-    } else if (row === Math.floor(this.height / 2) && column === Math.floor((3 * this.width) / 4)) {
+    } else if (row === this.target.row && column === this.target.column) {
         return "target";
     } else {
         return "unvisited";
@@ -169,11 +177,14 @@ Board.prototype.add_event_listener = function () {
     });
     let driver_button = document.getElementById("driverButton");
     driver_button.addEventListener("click", (event) => {
-        this.draw_short_path();
+        if (this.showingPath === false) {
+            this.showingPath = true;
+            this.draw_short_path();
+        }
+
     });
 
     let adjustSpeed = document.getElementById("adjustspeed");
-    console.log(adjustSpeed.textContent);
 
 
     let clearPath_button = document.getElementById("startButtonClearPath");
@@ -231,6 +242,7 @@ Board.prototype.draw_visited_node = async function () {
 
 Board.prototype.draw_short_path = async function () {
     newBoard.find_path(this.currentAlgorithms);
+    this.Drawing = true;
     const result = await this.draw_visited_node();
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
@@ -242,7 +254,22 @@ Board.prototype.draw_short_path = async function () {
     this.Drawing = false;
 };
 
-Board.clear_path = function () {};
+Board.prototype.clear_path = function () {
+    this.path = [];
+    this.visitedList = [];
+    for (var row = 0; row < this.height; row++) {
+        for (var column = 0; column < this.width; column++) {
+            let nodeID = `${row}-${column}`;
+            let currentNode = document.getElementById(nodeID);
+            if (currentNode.className != "start" && currentNode.className != "target") {
+                currentNode.className = "unvisited";
+            }
+        }
+
+    };
+    this.set_twoD_board();
+    this.showingPath = false;
+}
 
 Board.prototype.clear_board = function () {
     this.boardTwoD.forEach((row) => {
