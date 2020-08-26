@@ -166,6 +166,7 @@ Board.prototype.add_event_listener = function () {
     Greedy_button.addEventListener("click", (event) => {
         this.currentAlgorithms = "BFS";
     });
+
     let driver_button = document.getElementById("driverButton");
     driver_button.addEventListener("click", (event) => {
         this.drawShortPath();
@@ -177,7 +178,7 @@ Board.prototype.add_event_listener = function () {
 
 Board.prototype.findPath = function () {
     var path = [];
-    if (algorithmType === "DFS") {
+    if (this.currentAlgorithms === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
         if (result === this.target) {
@@ -188,9 +189,9 @@ Board.prototype.findPath = function () {
                 currentNode = node;
             }
         }
-    } else if (this.algorithmType === "BFS") {
+    } else if (this.currentAlgorithms === "BFS") {
         bfs(this.start, this.target, this.boardTwoD, this.visitedList);
-        var currentnode = this.boardTwoD[this.target.row][this.target.column];
+        var currentNode = this.boardTwoD[this.target.row][this.target.column];
         while (currentNode.location != this.start.location) {
             let node = currentNode.father;
             this.path.unshift(node);

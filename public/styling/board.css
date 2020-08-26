@@ -4,7 +4,7 @@
 * {
     position: relative;
     font-family: Font Awesome 5 Brands;
-    vertical-align: bottom;
+    vertical-align: middle;
     border: solid 1px;
 }
 
@@ -13,10 +13,14 @@
 .navbar {
     background-color: #090d35;
     vertical-align: bottom;
+    flex-wrap: wrap;
+}
+ul > .navbar-nav {
+    display: block;
 }
 .navbar-nav > li {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 .nav-link {
@@ -29,11 +33,10 @@
 }
 .navbar-btn {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.904);
     background-color: #f4bc2b;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
     border-radius: 5px;
 }
 
@@ -206,11 +209,6 @@ td {
         transform: scale(1);
     }
 }
-/* @media (min-width: 768px) {
-    .navbar-nav {
-        float: left;
-    }
-} */
 @font-face {
     font-family: "Font Awesome 5 Brands";
     src: url("//db.onlinewebfonts.com/t/2547970600ac97f5d9bd0ebcc1f2dd9d.eot");
