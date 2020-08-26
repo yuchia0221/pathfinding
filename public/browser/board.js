@@ -138,13 +138,37 @@ Board.prototype.add_event_listener = function () {
         }
     }
 
-    let dfs_button = document.getElementById("dfs_button");
+    let dfs_button = document.getElementById("startButtonDFS");
     dfs_button.addEventListener("click", (event) => {
-        this.driver();
+        this.currentAlgorithms = "DFS";
     });
-    let bfs_button = document.getElementById("bfs_button");
+    let bfs_button = document.getElementById("startButtonBFS");
     bfs_button.addEventListener("click", (event) => {
-        this.driver();
+        this.currentAlgorithms = "BFS";
+    });
+    let biDir_button = document.getElementById("startButtonBidirectional");
+    biDir_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let AStar_button = document.getElementById("startButtonAStar");
+    bfs_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let AStar2_button = document.getElementById("startButtonAStar2");
+    AStar2_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let AStar3_button = document.getElementById("startButtonAStar3");
+    AStar3_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let Greedy_button = document.getElementById("startButtonGreedy");
+    Greedy_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let driver_button = document.getElementById("driverButton");
+    driver_button.addEventListener("click", (event) => {
+        this.drawShortPath();
     });
 
     let adjustSpeed = document.getElementById("adjustspeed");
@@ -153,7 +177,7 @@ Board.prototype.add_event_listener = function () {
 
 Board.prototype.findPath = function () {
     var path = [];
-    if (this.algorithmType === "DFS") {
+    if (algorithmType === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
         if (result === this.target) {
@@ -197,10 +221,9 @@ Board.prototype.drawVisitedNode = async function () {
     }
 };
 
-Board.prototype.driver = async function () {
-    this.path = newBoard.findPath();
-    console.log("hi", this.path);
-    await this.drawVisitedNode();
+Board.prototype.drawShortPath = async function () {
+    this.path = newBoard.findPath(this.currentAlgorithms);
+    const result = await this.drawVisitedNode();
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
         if (currentNode.className === "visited") {
