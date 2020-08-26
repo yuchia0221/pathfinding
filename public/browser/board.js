@@ -1,5 +1,6 @@
 import Node from "http://localhost:8000/public/browser/node.js";
 import dfs from "http://localhost:8000/public/browser/Algorithms/DFS.js";
+import bfs from "http://localhost:8000/public/browser/Algorithms/BFS.js";
 
 function Board(height, width) {
     this.height = height; // Height of the board
@@ -139,34 +140,37 @@ Board.prototype.add_event_listener = function () {
 
     let dfs_button = document.getElementById("dfs_button");
     dfs_button.addEventListener("click", (event) => {
-        this.drawShortPath();
+        this.driver();
+    });
+    let bfs_button = document.getElementById("bfs_button");
+    bfs_button.addEventListener("click", (event) => {
+        this.driver();
     });
 
     let adjustSpeed = document.getElementById("adjustspeed");
     console.log(adjustSpeed.textContent);
 };
 
-Board.prototype.findPath = function (algorithmType) {
+Board.prototype.findPath = function () {
     var path = [];
-
-    if (algorithmType === "DFS") {
+    if (this.algorithmType === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
-        if (result === true) {
-            var currentnode = this.target;
-            var counter = 0;
-            while (true) {
-                path.unshift(currentnode);
-                if (currentnode.location != this.start.location) {
-                    currentnode = currentnode.father;
-                } else {
-                    break;
-                }
+        if (result === this.target) {
+            var currentnode = this.boardTwoD[this.target.row][this.target.column];
+            while (currentNode.location != this.start.location) {
+                let node = currentNode.father;
+                this.path.unshift(node);
+                currentNode = node;
             }
-            path.unshift(this.start);
-            return path;
-        } else {
-            return "No such path";
+        }
+    } else if (this.algorithmType === "BFS") {
+        bfs(this.start, this.target, this.boardTwoD, this.visitedList);
+        var currentnode = this.boardTwoD[this.target.row][this.target.column];
+        while (currentNode.location != this.start.location) {
+            let node = currentNode.father;
+            this.path.unshift(node);
+            currentNode = node;
         }
     }
     return null;
@@ -193,9 +197,10 @@ Board.prototype.drawVisitedNode = async function () {
     }
 };
 
-Board.prototype.drawShortPath = async function () {
-    this.path = newBoard.findPath("DFS");
-    const result = await this.drawVisitedNode();
+Board.prototype.driver = async function () {
+    this.path = newBoard.findPath();
+    console.log("hi", this.path);
+    await this.drawVisitedNode();
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
         if (currentNode.className === "visited") {
