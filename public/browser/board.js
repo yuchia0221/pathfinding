@@ -137,8 +137,36 @@ Board.prototype.add_event_listener = function () {
         }
     }
 
-    let dfs_button = document.getElementById("dfs_button");
+    let dfs_button = document.getElementById("startButtonDFS");
     dfs_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "DFS";
+    });
+    let bfs_button = document.getElementById("startButtonBFS");
+    bfs_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let biDir_button = document.getElementById("startButtonBidirectional");
+    biDir_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let AStar_button = document.getElementById("startButtonAStar");
+    bfs_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let AStar2_button = document.getElementById("startButtonAStar2");
+    AStar2_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let AStar3_button = document.getElementById("startButtonAStar3");
+    AStar3_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let Greedy_button = document.getElementById("startButtonGreedy");
+    Greedy_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "BFS";
+    });
+    let driver_button = document.getElementById("driverButton");
+    driver_button.addEventListener("click", (event) => {
         this.drawShortPath();
     });
 
@@ -146,9 +174,8 @@ Board.prototype.add_event_listener = function () {
     console.log(adjustSpeed.textContent);
 };
 
-Board.prototype.findPath = function (algorithmType) {
+Board.prototype.findPath = function () {
     var path = [];
-
     if (algorithmType === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
@@ -194,7 +221,7 @@ Board.prototype.drawVisitedNode = async function () {
 };
 
 Board.prototype.drawShortPath = async function () {
-    this.path = newBoard.findPath("DFS");
+    this.path = newBoard.findPath(this.currentAlgorithms);
     const result = await this.drawVisitedNode();
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);

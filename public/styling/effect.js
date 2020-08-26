@@ -1,31 +1,29 @@
-// 導覽列的顏色，有很大的bug
-var units = "T";
-$(".nav-link").mousedown(function () {
-    if (units == "F") {
-        $(this).css("background-color", "#090d35");
-        $(this).css("color", "rgba(255, 255, 255, 0.904)");
-        units = "T";
-        console.log("yes");
-    } else {
-        $(this).css("background-color", "#f4bc2b");
-        $(this).css("color", "#333");
-        units = "F";
-        console.log("no");
-    }
+$("#startButtonDijkstra").click(function () {
+    $("#algorithmsOption").text($(this).text());
 });
-$(".btnColor").mousedown(function () {
-    $(".nav-link").css("background-color", "#090d35");
-    $(".nav-link").css("color", "rgba(255, 255, 255, 0.904)");
-    units = "T";
-    console.log("yes");
+$("#startButtonGreedy").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonAStar2").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonAStar3").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonAStar").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonBidirectional").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonBFS").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonDFS").click(function () {
+    $("#algorithmsOption").text($(this).text());
 });
 
-// 按鈕：視覺化時所展示的演算法
-// $("#actualStartButton").click(function () {
-//     $("this").text("");
-// });
-
-// 演算法的速度
+// Adjust Speed
 $("#speedFast").click(function () {
     $("#adjustspeed").text($(this).text());
 });
@@ -34,4 +32,29 @@ $("#speedAverage").click(function () {
 });
 $("#speedSlow").click(function () {
     $("#adjustspeed").text($(this).text());
+});
+//Algorithms Options
+$("#startButtonDijkstrat").click(function () {
+    $("#algorithmsOptions").text($(this).text());
+});
+$("#startButtonGreedy").click(function () {
+    $("#algorithmsOptions").text($(this).text());
+});
+$("#startButtonAStar2").click(function () {
+    $("#algorithmsOptions").text($(this).text());
+});
+$("#startButtonAStar3").click(function () {
+    $("#algorithmsOptions").text($(this).text());
+});
+$("#startButtonAStar").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonBidirectional").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonBFS").click(function () {
+    $("#algorithmsOption").text($(this).text());
+});
+$("#startButtonDFS").click(function () {
+    $("#algorithmsOption").text($(this).text());
 });
