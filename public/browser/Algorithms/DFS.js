@@ -1,8 +1,6 @@
 function dfs(start, target, boardTwoD, visitedList) {
     var nodeToVisit = [];
-
     nodeToVisit.push(start);
-
     var previousNode = start;
     var currentNode = null;
     var getTarget = false;

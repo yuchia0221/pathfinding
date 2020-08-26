@@ -5,10 +5,9 @@ import bfs from "http://localhost:8000/public/browser/Algorithms/BFS.js";
 function Board(height, width) {
     this.height = height; // Height of the board
     this.width = width; // Width of the board
-    this.speed = "normal"; // The speed of running the path 'fast' 'normal' 'slow'
+    this.speed = "fast"; // The speed of running the path 'fast' 'normal' 'slow'
     this.start = new Node(Math.floor(this.height / 2), Math.floor(this.width / 4), "start", null); // Start point of the path
     this.target = new Node(Math.floor(this.height / 2), Math.floor((3 * this.width) / 4), "target", null); // Target of the path
-    this.pathDirection = null; // The direction of the path
     this.currentAlgorithms; // The Algorithm user choose
     this.wallNode = []; // Record the id of the wall node
     this.boardTwoD = [];
@@ -18,6 +17,7 @@ function Board(height, width) {
     this.draggingStart = false;
     this.draggingTarget = false;
     this.previousStatus = "";
+    this.Drawing = false;
 }
 
 Board.prototype.initialize = function () {
@@ -27,7 +27,8 @@ Board.prototype.initialize = function () {
 };
 
 Board.prototype.set_twoD_board = function () {
-    //Only pushing node to the 2DboardArray
+    // Only pushing node to the 2DboardArray
+    this.boardTwoD = [];
     for (var i = 0; i < this.height; i++) {
         var temp_row = [];
         for (var j = 0; j < this.width; j++) {
@@ -173,24 +174,31 @@ Board.prototype.add_event_listener = function () {
 
     let adjustSpeed = document.getElementById("adjustspeed");
     console.log(adjustSpeed.textContent);
+
+
+    let clearPath_button = document.getElementById("startButtonClearPath");
+    clearPath_button.addEventListener("click", (event) => {
+        if (this.Drawing === false) {
+            this.clearPath();
+        }
+    });
 };
 
 Board.prototype.findPath = function () {
-    var path = [];
-    if (algorithmType === "DFS") {
+    if (this.currentAlgorithms === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
-        if (result === this.target) {
-            var currentnode = this.boardTwoD[this.target.row][this.target.column];
+        if (result === true) {
+            var currentNode = this.boardTwoD[this.target.row][this.target.column];
             while (currentNode.location != this.start.location) {
                 let node = currentNode.father;
                 this.path.unshift(node);
                 currentNode = node;
             }
         }
-    } else if (this.algorithmType === "BFS") {
+    } else if (this.currentAlgorithms === "BFS") {
         bfs(this.start, this.target, this.boardTwoD, this.visitedList);
-        var currentnode = this.boardTwoD[this.target.row][this.target.column];
+        var currentNode = this.boardTwoD[this.target.row][this.target.column];
         while (currentNode.location != this.start.location) {
             let node = currentNode.father;
             this.path.unshift(node);
@@ -215,15 +223,17 @@ Board.prototype.drawVisitedNode = async function () {
 
     for (var i = 0; i < this.visitedList.length; i++) {
         await sleep(speed);
-        if (document.getElementById(this.visitedList[i].location).className != "target") {
+        if (document.getElementById(this.visitedList[i].location).className != "target" && document.getElementById(this.visitedList[i].location).className != "start") {
             document.getElementById(this.visitedList[i].location).className = "visited";
         }
     }
 };
 
 Board.prototype.drawShortPath = async function () {
-    this.path = newBoard.findPath(this.currentAlgorithms);
+    newBoard.findPath(this.currentAlgorithms);
+    this.Drawing = true;
     const result = await this.drawVisitedNode();
+    console.log(this.path);
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
         if (currentNode.className === "visited") {
@@ -231,11 +241,26 @@ Board.prototype.drawShortPath = async function () {
             currentNode.className = "shortpath";
         }
     }
+    this.Drawing = false;
 };
 
-Board.clearPath = function () {};
+Board.prototype.clearPath = function () {
+    this.path = [];
+    this.visitedList = [];
 
-Board.clearBoard = function () {};
+    for (var row = 0; row < this.height; row++) {
+        for (var column = 0; column < this.width; column++) {
+            let nodeID = `${row}-${column}`;
+            let currentNode = document.getElementById(nodeID);
+            if (currentNode.className != "start" && currentNode.className != "target") {
+                currentNode.className = "unvisited";
+            }
+        }
+    }
+    this.set_twoD_board();
+    console.log(this.boardTwoD);
+
+};
 
 Board.prototype.change_Node_Status = function (currentNode) {
     let status = currentNode.className;
