@@ -1,7 +1,5 @@
 function bfs(start, target, board, visitedList) {
     var queue = Array(start);
-    var res = false;
-    console.log("HI");
     while (queue && queue.length) {
         var currentNode = queue.shift();
         currentNode.status = "visited";
@@ -14,6 +12,7 @@ function bfs(start, target, board, visitedList) {
             }
         }
     }
+    return false;
 }
 
 function bfs_util(node, board) {

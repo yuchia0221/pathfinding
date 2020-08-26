@@ -140,33 +140,35 @@ Board.prototype.add_event_listener = function () {
 
     let dfs_button = document.getElementById("dfs_button");
     dfs_button.addEventListener("click", (event) => {
-        this.drawShortPath();
+        this.driver();
     });
     let bfs_button = document.getElementById("bfs_button");
     bfs_button.addEventListener("click", (event) => {
-        this.a();
+        this.driver();
     });
 };
 
-Board.prototype.findPath = function (algorithmType) {
+Board.prototype.findPath = function () {
     var path = [];
-    if (algorithmType === "DFS") {
+    if (this.algorithmType === "DFS") {
         var result = dfs(this.start, this.target, this.boardTwoD, this.visitedList);
         // success
         if (result === this.target) {
             var currentnode = this.boardTwoD[this.target.row][this.target.column];
-            while (true) {
-                path.unshift(currentnode);
-                if (currentnode != this.start) {
-                    currentnode = currentnode.father;
-                }
-                path.unshift(this.start);
-                return path;
+            while (currentNode.location != this.start.location) {
+                let node = currentNode.father;
+                this.path.unshift(node);
+                currentNode = node;
             }
         }
-    } else if (algorithmType === "BFS") {
-        var res = bfs(this.start, this.target, this.boardTwoD, this.visitedList);
-        console.log(res);
+    } else if (this.algorithmType === "BFS") {
+        bfs(this.start, this.target, this.boardTwoD, this.visitedList);
+        var currentnode = this.boardTwoD[this.target.row][this.target.column];
+        while (currentNode.location != this.start.location) {
+            let node = currentNode.father;
+            this.path.unshift(node);
+            currentNode = node;
+        }
     }
     return null;
 };
@@ -182,33 +184,11 @@ Board.prototype.drawVisitedNode = async function () {
     }
 };
 
-Board.prototype.drawShortPath = async function () {
-    this.path = newBoard.findPath("DFS");
-    const result = await this.drawVisitedNode();
+Board.prototype.driver = async function () {
+    this.path = newBoard.findPath();
+    await this.drawVisitedNode();
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
-        if (currentNode.className === "visited") {
-            await sleep(30);
-            currentNode.className = "shortpath";
-        }
-    }
-};
-
-Board.prototype.a = async function () {
-    newBoard.findPath("BFS");
-    // console.log(this.target.father);
-    const result = await newBoard.drawVisitedNode();
-    var currentNode = this.boardTwoD[this.target.row][this.target.column];
-    var shortpath = Array(currentNode);
-
-    while (currentNode.location != this.start.location) {
-        let node = currentNode.father;
-        shortpath.unshift(node);
-        currentNode = node;
-    }
-    console.log(shortpath);
-    for (var i = 0; i < shortpath.length; i++) {
-        let currentNode = document.getElementById(shortpath[i].location);
         if (currentNode.className === "visited") {
             await sleep(30);
             currentNode.className = "shortpath";
