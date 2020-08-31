@@ -25,6 +25,7 @@ Board.prototype.initialize = function () {
     this.create_grid();
     this.add_event_listener();
     this.set_twoD_board();
+    this.set_random_weight();
 };
 
 Board.prototype.set_twoD_board = function () {
@@ -186,11 +187,17 @@ Board.prototype.add_event_listener = function () {
 
     let adjustSpeed = document.getElementById("adjustspeed");
 
-
     let clearPath_button = document.getElementById("startButtonClearPath");
     clearPath_button.addEventListener("click", (event) => {
         if (this.Drawing === false) {
             this.clear_path();
+        }
+    });
+
+    let clearWeight_button = document.getElementById("startButtonClearWall");
+    clearWeight_button.addEventListener("click", (event) => {
+        if (this.Drawing === false) {
+            this.clear_weight();
         }
     });
 };
@@ -297,6 +304,36 @@ Board.prototype.change_node_status = function (currentNode) {
         this.boardTwoD[currentNodeRow][currentNodeColumn].status = "unvisited";
     }
 };
+
+Board.prototype.set_random_weight = async function () {
+    for (var row = 0; row < this.height; row++) {
+        for (var column = 0; column < this.width; column++) {
+            let nodeID = `${row}-${column}`;
+            let nodeClass = document.getElementById(nodeID);
+            let randomBoolean = Math.random() >= 0.7;
+            if (randomBoolean === true && nodeClass.className != "target" && nodeClass.className != "start") {
+                nodeClass.className = "weighted";
+                this.boardTwoD[row][column].status = "weighted";
+                this.boardTwoD[row][column].weight = 1;
+            }
+        }
+    }
+};
+
+Board.prototype.clear_weight = function () {
+    for (var row = 0; row < this.height; row++) {
+        for (var column = 0; column < this.width; column++) {
+            let nodeID = `${row}-${column}`;
+            let nodeClass = document.getElementById(nodeID);
+            if (nodeClass.className === "weighted") {
+                nodeClass.className = "unvisited";
+                this.boardTwoD[row][column].status = "unvisited";
+                this.boardTwoD[row][column].weight = 0;
+            }
+        }
+    }
+};
+
 
 let height = Math.floor(screen.height / 40);
 let width = Math.floor(screen.width / 25);
