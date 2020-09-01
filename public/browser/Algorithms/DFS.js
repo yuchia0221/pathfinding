@@ -4,7 +4,6 @@ function dfs(start, target, boardTwoD, visitedList) {
     nodeToVisit.push(start);
     var previousNode = start;
     var currentNode = null;
-    var getTarget = false;
 
     while (nodeToVisit.length > 0) {
         currentNode = nodeToVisit.pop();
@@ -17,9 +16,8 @@ function dfs(start, target, boardTwoD, visitedList) {
 
         visitedList.push(currentNode);
         currentNode.status = "visited";
-
         previousNode = currentNode;
-        getTarget = setChild(currentNode, boardTwoD, nodeToVisit);
+        setChild(currentNode, boardTwoD, nodeToVisit);
     }
     return false;
 }
@@ -51,11 +49,11 @@ function setChild(currentNode, boardTwoD, nodeToVisit) {
         targetChild = boardTwoD[currentNode.row - 1][currentNode.column];
         checkChild(targetChild, nodeToVisit, currentNode);
     }
-    return false;
 }
 
 function checkChild(targetChild, nodeToVisit, currentNode) {
     if (targetChild.status === "unvisited" || targetChild.status === "target") {
+
         targetChild.father = currentNode;
         nodeToVisit.push(targetChild);
     }

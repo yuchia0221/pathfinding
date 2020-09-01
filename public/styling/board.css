@@ -15,7 +15,7 @@
     vertical-align: bottom;
 }
 
-.navbar-nav>li {
+.navbar-nav > li {
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -167,6 +167,11 @@ td {
 
 .weighted {
     background-color: red;
+}
+
+.visitedWeighted {
+    background-color: orange;
+    transition-duration: 0.5s;
 }
 
 @keyframes visitedAnimation {
