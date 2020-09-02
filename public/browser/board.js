@@ -2,6 +2,7 @@ import Node from "http://localhost:8000/public/browser/node.js";
 import dfs from "http://localhost:8000/public/browser/Algorithms/DFS.js";
 import bfs from "http://localhost:8000/public/browser/Algorithms/BFS.js";
 import dijkstra from "http://localhost:8000/public/browser/Algorithms/dijkstra.js";
+import greedy from "http://localhost:8000/public/browser/Algorithms/greedy.js";
 
 function Board(height, width) {
     this.height = height; // Height of the board
@@ -174,7 +175,7 @@ Board.prototype.add_event_listener = function () {
     });
     let Greedy_button = document.getElementById("startButtonGreedy");
     Greedy_button.addEventListener("click", (event) => {
-        this.currentAlgorithms = "BFS";
+        this.currentAlgorithms = "GRE";
     });
 
 
@@ -237,6 +238,15 @@ Board.prototype.find_path = function () {
         }
     } else if (this.currentAlgorithms === "DIJ") {
         dijkstra(this.start, this.target, this.boardTwoD, this.visitedList);
+        var currentNode = this.boardTwoD[this.target.row][this.target.column];
+
+        while (currentNode.location != this.start.location) {
+            let node = currentNode.father;
+            this.path.unshift(node);
+            currentNode = node;
+        }
+    } else if (this.currentAlgorithms === "GRE") {
+        greedy(this.start, this.target, this.boardTwoD, this.visitedList);
         var currentNode = this.boardTwoD[this.target.row][this.target.column];
 
         while (currentNode.location != this.start.location) {
