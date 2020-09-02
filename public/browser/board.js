@@ -200,7 +200,7 @@ Board.prototype.add_event_listener = function () {
     let clearWeight_button = document.getElementById("startButtonClearWall");
     clearWeight_button.addEventListener("click", (event) => {
         if (this.Drawing === false) {
-            this.clear_weight();
+            this.clear_weight_wall();
         }
     });
 
@@ -210,10 +210,6 @@ Board.prototype.add_event_listener = function () {
             this.set_random_weight();
         }
     });
-
-
-
-
 };
 
 Board.prototype.find_path = function () {
@@ -304,7 +300,7 @@ Board.prototype.clear_path = function () {
         for (var column = 0; column < this.width; column++) {
             let nodeID = `${row}-${column}`;
             let currentNode = document.getElementById(nodeID);
-            if (currentNode.className != "start" && currentNode.className != "target") {
+            if (currentNode.className != "start" && currentNode.className != "target" && currentNode.className != "wall") {
                 currentNode.className = "unvisited";
             }
         }
@@ -313,8 +309,7 @@ Board.prototype.clear_path = function () {
     this.showingPath = false;
 }
 
-
-Board.prototype.clear_board = function () {
+Board.prototype.clear_wall = function () {
     this.boardTwoD.forEach((row) => {
         row.forEach((currentNode) => {
             let currentHTMLNode = document.getElementById(currentNode.location);
@@ -348,7 +343,7 @@ Board.prototype.set_random_weight = async function () {
             let nodeID = `${row}-${column}`;
             let nodeClass = document.getElementById(nodeID);
             let randomBoolean = Math.random() >= 0.7;
-            if (randomBoolean === true && nodeClass.className != "target" && nodeClass.className != "start") {
+            if (randomBoolean === true && nodeClass.className != "target" && nodeClass.className != "start" && nodeClass.className != "wall") {
                 nodeClass.className = "weighted";
                 this.boardTwoD[row][column].status = "weighted";
                 this.boardTwoD[row][column].weight = 5;
@@ -371,6 +366,11 @@ Board.prototype.clear_weight = function () {
     }
 };
 
+Board.prototype.clear_weight_wall = function () {
+    this.clear_wall();
+    this.clear_weight();
+    this.clear_path();
+};
 
 let height = Math.floor(screen.height / 40);
 let width = Math.floor(screen.width / 25);
