@@ -163,7 +163,7 @@ Board.prototype.add_event_listener = function () {
     });
     let AStar_button = document.getElementById("startButtonAStar");
     bfs_button.addEventListener("click", (event) => {
-        this.currentAlgorithms = "BFS";
+        this.currentAlgorithms = "BFS"
     });
     let AStar2_button = document.getElementById("startButtonAStar2");
     AStar2_button.addEventListener("click", (event) => {
@@ -273,6 +273,7 @@ Board.prototype.draw_visited_node = async function () {
 
     for (var i = 0; i < this.visitedList.length; i++) {
         await sleep(speed);
+
         if (document.getElementById(this.visitedList[i].location).className === "weighted") {
             document.getElementById(this.visitedList[i].location).className = "visitedWeighted";
         } else if (document.getElementById(this.visitedList[i].location).className != "target" && document.getElementById(this.visitedList[i].location).className != "start") {
@@ -307,11 +308,11 @@ Board.prototype.clear_path = function () {
                 currentNode.className = "unvisited";
             }
         }
-
     };
     this.set_twoD_board();
     this.showingPath = false;
 }
+
 
 Board.prototype.clear_board = function () {
     this.boardTwoD.forEach((row) => {
