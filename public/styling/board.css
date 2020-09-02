@@ -208,6 +208,7 @@ td {
     50% {
         transform: scale(1.2);
         border-radius: 50%;
+        background-color: #5eaaa8;
     }
     100% {
         transform: scale(1);
