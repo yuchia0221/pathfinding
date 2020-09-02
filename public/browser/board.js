@@ -1,6 +1,8 @@
 import Node from "http://localhost:8000/public/browser/node.js";
 import dfs from "http://localhost:8000/public/browser/Algorithms/DFS.js";
 import bfs from "http://localhost:8000/public/browser/Algorithms/BFS.js";
+import dijkstra from "http://localhost:8000/public/browser/Algorithms/dijkstra.js";
+import greedy from "http://localhost:8000/public/browser/Algorithms/greedy.js";
 
 function Board(height, width) {
     this.height = height; // Height of the board
@@ -155,9 +157,9 @@ Board.prototype.add_event_listener = function () {
     bfs_button.addEventListener("click", (event) => {
         this.currentAlgorithms = "BFS";
     });
-    let biDir_button = document.getElementById("startButtonBidirectional");
-    biDir_button.addEventListener("click", (event) => {
-        this.currentAlgorithms = "BFS";
+    let dij_button = document.getElementById("startButtonDijkstra");
+    dij_button.addEventListener("click", (event) => {
+        this.currentAlgorithms = "DIJ";
     });
     let AStar_button = document.getElementById("startButtonAStar");
     bfs_button.addEventListener("click", (event) => {
@@ -173,14 +175,17 @@ Board.prototype.add_event_listener = function () {
     });
     let Greedy_button = document.getElementById("startButtonGreedy");
     Greedy_button.addEventListener("click", (event) => {
-        this.currentAlgorithms = "BFS";
+        this.currentAlgorithms = "GRE";
     });
+
+
     let driver_button = document.getElementById("driverButton");
     driver_button.addEventListener("click", (event) => {
         if (this.showingPath === false) {
             this.showingPath = true;
             this.draw_short_path();
         }
+
     });
 
     let adjustSpeed = document.getElementById("adjustspeed");
@@ -191,6 +196,24 @@ Board.prototype.add_event_listener = function () {
             this.clear_path();
         }
     });
+
+    let clearWeight_button = document.getElementById("startButtonClearWall");
+    clearWeight_button.addEventListener("click", (event) => {
+        if (this.Drawing === false) {
+            this.clear_weight();
+        }
+    });
+
+    let createWeight_button = document.getElementById("startButtonCreateMazeWeights");
+    createWeight_button.addEventListener("click", (event) => {
+        if (this.Drawing === false) {
+            this.set_random_weight();
+        }
+    });
+
+
+
+
 };
 
 Board.prototype.find_path = function () {
@@ -208,6 +231,24 @@ Board.prototype.find_path = function () {
     } else if (this.currentAlgorithms === "BFS") {
         bfs(this.start, this.target, this.boardTwoD, this.visitedList);
         var currentNode = this.boardTwoD[this.target.row][this.target.column];
+        while (currentNode.location != this.start.location) {
+            let node = currentNode.father;
+            this.path.unshift(node);
+            currentNode = node;
+        }
+    } else if (this.currentAlgorithms === "DIJ") {
+        dijkstra(this.start, this.target, this.boardTwoD, this.visitedList);
+        var currentNode = this.boardTwoD[this.target.row][this.target.column];
+
+        while (currentNode.location != this.start.location) {
+            let node = currentNode.father;
+            this.path.unshift(node);
+            currentNode = node;
+        }
+    } else if (this.currentAlgorithms === "GRE") {
+        greedy(this.start, this.target, this.boardTwoD, this.visitedList);
+        var currentNode = this.boardTwoD[this.target.row][this.target.column];
+
         while (currentNode.location != this.start.location) {
             let node = currentNode.father;
             this.path.unshift(node);
@@ -232,10 +273,10 @@ Board.prototype.draw_visited_node = async function () {
 
     for (var i = 0; i < this.visitedList.length; i++) {
         await sleep(speed);
-        if (
-            document.getElementById(this.visitedList[i].location).className != "target" &&
-            document.getElementById(this.visitedList[i].location).className != "start"
-        ) {
+
+        if (document.getElementById(this.visitedList[i].location).className === "weighted") {
+            document.getElementById(this.visitedList[i].location).className = "visitedWeighted";
+        } else if (document.getElementById(this.visitedList[i].location).className != "target" && document.getElementById(this.visitedList[i].location).className != "start") {
             document.getElementById(this.visitedList[i].location).className = "visited";
         }
     }
@@ -245,6 +286,7 @@ Board.prototype.draw_short_path = async function () {
     newBoard.find_path(this.currentAlgorithms);
     this.Drawing = true;
     const result = await this.draw_visited_node();
+    console.log(this.path);
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
         if (currentNode.className === "visited") {
@@ -266,10 +308,11 @@ Board.prototype.clear_path = function () {
                 currentNode.className = "unvisited";
             }
         }
-    }
+    };
     this.set_twoD_board();
     this.showingPath = false;
-};
+}
+
 
 Board.prototype.clear_board = function () {
     this.boardTwoD.forEach((row) => {
@@ -297,6 +340,37 @@ Board.prototype.change_node_status = function (currentNode) {
         this.boardTwoD[currentNodeRow][currentNodeColumn].status = "unvisited";
     }
 };
+
+Board.prototype.set_random_weight = async function () {
+    this.clear_weight();
+    for (var row = 0; row < this.height; row++) {
+        for (var column = 0; column < this.width; column++) {
+            let nodeID = `${row}-${column}`;
+            let nodeClass = document.getElementById(nodeID);
+            let randomBoolean = Math.random() >= 0.7;
+            if (randomBoolean === true && nodeClass.className != "target" && nodeClass.className != "start") {
+                nodeClass.className = "weighted";
+                this.boardTwoD[row][column].status = "weighted";
+                this.boardTwoD[row][column].weight = 5;
+            }
+        }
+    }
+};
+
+Board.prototype.clear_weight = function () {
+    for (var row = 0; row < this.height; row++) {
+        for (var column = 0; column < this.width; column++) {
+            let nodeID = `${row}-${column}`;
+            let nodeClass = document.getElementById(nodeID);
+            if (nodeClass.className === "weighted") {
+                nodeClass.className = "unvisited";
+                this.boardTwoD[row][column].status = "unvisited";
+                this.boardTwoD[row][column].weight = 0;
+            }
+        }
+    }
+};
+
 
 let height = Math.floor(screen.height / 40);
 let width = Math.floor(screen.width / 25);
