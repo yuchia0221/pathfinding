@@ -4,8 +4,141 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <link
+            href="//db.onlinewebfonts.com/c/30c8e877e175d19bcbe6f8d90d1a4bc1?family=Font+Awesome+5+Clouds+Solid"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="//db.onlinewebfonts.com/c/2547970600ac97f5d9bd0ebcc1f2dd9d?family=Font+Awesome+5+Brands"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" type="text/css" href="public/styling/board.css" />
     </head>
-    <body>
-        <h1>Hello World</h1>
+    <body id="test">
+        <div id="navbarDiv">
+            <nav class="navbar fixed-top navbar-expand-md ">
+                <div class="container-fluid">
+                    <div class="navbar-header ">
+                        <a class="navbar-brand " href="#">Pathfinding Visualizer</a>
+                    </div>
+                    <ul class="nav navbar-nav ">
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="algorithmsOption"
+                                data-toggle="dropdown"
+                            >
+                                Algorithms
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li id="startButtonDijkstra">
+                                    <a class="btnColor" href="#">Dijkstra's Algorithm</a>
+                                </li>
+                                <li id="startButtonAStar2"><a class="btnColor" href="#">A* Search</a></li>
+                                <li id="startButtonGreedy">
+                                    <a class="btnColor" href="#">Greedy Best-first Search</a>
+                                </li>
+                                <li id="startButtonAStar"><a class="btnColor" href="#">Swarm Algorithm</a></li>
+                                <li id="startButtonAStar3">
+                                    <a class="btnColor" href="#"> Convergent Swarm Algorithm</a>
+                                </li>
+                                <li id="startButtonBidirectional">
+                                    <a class="btnColor" href="#">Bidirectional Swarm Algorithm</a>
+                                </li>
+                                <li id="startButtonBFS"><a class="btnColor" href="#">Breadth-first Search</a></li>
+                                <li id="startButtonDFS"><a class="btnColor" href="#">Depth-first Search</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Mazes &amp; Patterns
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li id="startButtonCreateMazeTwo">
+                                    <a class="btnColor" href="#">Recursive Division</a>
+                                </li>
+                                <li id="startButtonCreateMazeThree">
+                                    <a class="btnColor" href="#">Recursive Division (vertical skew)</a>
+                                </li>
+                                <li id="startButtonCreateMazeFour">
+                                    <a class="btnColor" href="#">Recursive Division (horizontal skew)</a>
+                                </li>
+                                <li id="startButtonCreateMazeOne">
+                                    <a class="btnColor" href="#">Basic Random Maze</a>
+                                </li>
+                                <li id="startButtonCreateMazeWeights">
+                                    <a class="btnColor" href="#">Basic Weight Maze</a>
+                                </li>
+                                <li id="startStairDemonstration">
+                                    <a class="btnColor" href="#">Simple Stair Pattern</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="startButtonAddbomb" class="nav-item"><a class="nav-link" href="#"> Add Bomb</a></li>
+                        <li class="nav-item">
+                            <button id="driverButton" class="navbar-btn">Visualize!</button>
+                        </li>
+
+                        <li id="startButtonClearBoard" class="nav-item">
+                            <a class="nav-link" href="#"> Clear Board</a>
+                        </li>
+                        <li id="startButtonClearWall" class="nav-item">
+                            <a class="nav-link" href="#"> Clear Walls &amp; Weights</a>
+                        </li>
+                        <li id="startButtonClearPath" class="nav-item">
+                            <a class="nav-link" href="#"> Clear Path</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adjustspeed" data-toggle="dropdown">
+                                Speed: Fast
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a id="speedFast" class="btnColor" href="#">Speed: Fast</a>
+                                </li>
+                                <li>
+                                    <a id="speedAverage" class="btnColor" href="#">Speed: Average</a>
+                                </li>
+                                <li>
+                                    <a id="speedSlow" class="btnColor" href="#">Speed: Slow</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+        <div id="mainGrid">
+            <table id="board"></table>
+        </div>
     </body>
+    <script type="module" src="./public/browser/board.js"></script>
+    <script type="module" src="./public/styling/effect.js"></script>
+    <script type="module" src="./public/browser/Algorithms/DFS.js"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"
+    ></script>
 </html>
