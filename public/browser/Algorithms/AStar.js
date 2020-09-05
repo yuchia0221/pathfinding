@@ -14,10 +14,9 @@ function AStar(start, target, boardTwoD, visitedList) {
         visitedList.push(currentNode);
         //previousNode = currentNode;
         AStar_util(target, currentNode, boardTwoD, priorityQueue);
-        console.log(currentNode.location);
-        console.log(priorityQueue);
+        // console.log(currentNode.location);
+        // console.log(priorityQueue);
         if (currentNode.location === target.location) {
-            console.log(target.location);
             // boardTwoD[target.row][target.column].father = previousNode;
             // target.father = previousNode;
             console.log(visitedList);
@@ -74,12 +73,25 @@ function checkChild(target, targetChild, currentNode, priorityQueue) {
             targetChild.father = currentNode;
         }
 
+
         // targetChild.father = currentNode;
 
         insert_to_queue(targetChild, priorityQueue);
 
     }
+    if (targetChild.status === "visited") {
+        targetChild.totalDist += currentNode.totalDist + 1 + currentNode.weight;
+        let temp =
+            currentNode.totalDist +
+            dist(target.row, target.column, targetChild.row, targetChild.column) +
+            targetChild.weight;
+        targetChild.dist = temp;
+        let targetIndex = priorityQueue.indexOf(priorityQueue.find(element => element.location === targetChild.location));
+        priorityQueue.splice(targetIndex, 1);
+        insert_to_queue(targetChild, priorityQueue);
+    }
 }
+4356
 
 function set_dist(target, start, boardTwoD, priorityQueue) {
     var boardHeight = boardTwoD.length;
