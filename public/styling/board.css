@@ -4,12 +4,70 @@
 * {
     position: relative;
     font-family: Font Awesome 5 Brands;
-    /*border: solid 1px;*/
 }
+
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100vh;
+}
+
+/* discription */
+#description {
+    position: absolute;
+    z-index: 3;
+    border: #090d35 2px solid;
+    border-radius: 10px;
+    background-color: white;
+    width: 30%;
+    height: 70%;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    text-align: center;
+}
+
+#description>h1 {
+    line-height: 80px;
+}
+
+#description>p {
+    margin-top: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+#description>#startButton {
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+    border: black solid 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #090d35;
+    color: white;
+    transition-duration: 0.2s;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 35px;
+}
+
+#description>#startButton:hover {
+    color: #f4bc2b;
+    cursor: pointer;
+}
+
 
 /* navbar */
 
 .navbar {
+    z-index: 2;
     background-color: #090d35;
 
     vertical-align: middle;
@@ -153,6 +211,11 @@ ul>li {
     left: 510px
 }
 
+.pathIcon {
+    background-color: #ffff00;
+    left: 640px
+}
+
 .word {
     position: absolute;
     height: 40px;
@@ -178,6 +241,10 @@ ul>li {
 
 .visitedWord {
     left: 550px
+}
+
+.pathWord {
+    left: 680px
 }
 
 

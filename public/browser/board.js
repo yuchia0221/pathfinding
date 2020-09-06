@@ -88,6 +88,12 @@ Board.prototype.find_node_class = function (row, column) {
 };
 
 Board.prototype.add_event_listener = function () {
+    let startButton = document.getElementById("startButton");
+    let description = document.getElementById("description");
+    startButton.addEventListener("click", (event) => {
+        description.style["display"] = "none";
+    });
+
     for (var row = 0; row < this.height; row++) {
         for (var column = 0; column < this.width; column++) {
             let nodeID = `${row}-${column}`;
@@ -209,6 +215,8 @@ Board.prototype.add_event_listener = function () {
             this.set_random_weight();
         }
     });
+
+
 };
 
 Board.prototype.find_path = function () {
