@@ -4,7 +4,7 @@
 * {
     position: relative;
     font-family: Font Awesome 5 Brands;
-    /* border: solid 1px; */
+    /*border: solid 1px;*/
 }
 
 /* navbar */
@@ -20,7 +20,7 @@
     vertical-align: bottom;
 }
 
-.navbar-nav > li {
+.navbar-nav>li {
     padding-left: 10px;
     padding-right: 10px;
 
@@ -30,14 +30,17 @@
     display: flex;
     justify-content: space-between;
 }
-ul > li {
+
+ul>li {
     padding-left: 12px;
     padding-right: 12px;
 }
+
 .nav-item {
     min-width: 0px;
     display: inline;
 }
+
 .nav-link {
     background-color: #090d35;
     border-radius: 5px;
@@ -61,10 +64,6 @@ ul > li {
     color: #f4bc2b;
 }
 
-/* .nav-link:active {
-    color: black;
-    background-color: #f4bc2b;
-} */
 
 .navbar-brand {
     color: rgba(255, 255, 255, 0.904);
@@ -103,15 +102,94 @@ ul > li {
     text-decoration: none;
 }
 
+/*Legend section*/
+.legend {
+    top: 80px;
+    height: 50px;
+    /* background-color: #e0feff; */
+}
+
+.icon {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.startIcon {
+    background-image: url(triangletwo-right.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    left: 40px
+}
+
+.targetIcon {
+    background-image: url(circle.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    left: 170px
+}
+
+.weightIcon {
+    background-color: red;
+    left: 300px
+}
+
+.visitedWeightIcon {
+    background-color: orange;
+    left: 340px
+}
+
+.visitedIcon1 {
+    background-color: rgb(175, 216, 248);
+    left: 470px
+}
+
+.visitedIcon2 {
+    background-color: #17b978;
+    left: 510px
+}
+
+.word {
+    position: absolute;
+    height: 40px;
+    width: 70px;
+    text-align: left;
+    line-height: 35px;
+    font-size: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.startWord {
+    left: 80px
+}
+
+.targetWord {
+    left: 210px
+}
+
+.weightWord {
+    left: 380px
+}
+
+.visitedWord {
+    left: 550px
+}
+
+
 /* 以下是board */
 #mainGrid {
-    margin-top: 200px;
+    /* margin-top: 200px; */
+    top: 100px;
 }
 
 #board {
     margin: 5px;
     border-collapse: collapse;
-    /* border: 1px solid rgb(175, 216, 248); */
 }
 
 .unvisited {
