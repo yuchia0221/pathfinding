@@ -14,12 +14,8 @@ function AStar(start, target, boardTwoD, visitedList) {
         visitedList.push(currentNode);
         //previousNode = currentNode;
         AStar_util(target, currentNode, boardTwoD, priorityQueue);
-        // console.log(currentNode.location);
-        // console.log(priorityQueue);
         if (currentNode.location === target.location) {
-            // boardTwoD[target.row][target.column].father = previousNode;
-            // target.father = previousNode;
-            console.log(visitedList);
+            // console.log(visitedList);
             return true;
         }
     }

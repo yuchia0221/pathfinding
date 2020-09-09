@@ -63,7 +63,6 @@ body {
     cursor: pointer;
 }
 
-
 /* navbar */
 
 .navbar {
@@ -81,7 +80,6 @@ body {
 .navbar-nav>li {
     padding-left: 10px;
     padding-right: 10px;
-
 }
 
 .fill-mode {
@@ -122,13 +120,10 @@ ul>li {
     color: #f4bc2b;
 }
 
-
 .navbar-brand {
     color: rgba(255, 255, 255, 0.904);
     font-weight: 600;
 }
-
-/* 選項的間隔可以愈網線系統嗎 */
 
 [aria-expanded="true"].nav-link {
     background-color: #f4bc2b;
@@ -180,7 +175,7 @@ ul>li {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    left: 40px
+    left: 40px;
 }
 
 .targetIcon {
@@ -188,32 +183,32 @@ ul>li {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    left: 170px
+    left: 170px;
 }
 
 .weightIcon {
     background-color: red;
-    left: 300px
+    left: 300px;
 }
 
 .visitedWeightIcon {
     background-color: orange;
-    left: 340px
+    left: 340px;
 }
 
 .visitedIcon1 {
     background-color: rgb(175, 216, 248);
-    left: 470px
+    left: 470px;
 }
 
 .visitedIcon2 {
     background-color: #17b978;
-    left: 510px
+    left: 510px;
 }
 
 .pathIcon {
     background-color: #ffff00;
-    left: 640px
+    left: 640px;
 }
 
 .word {
@@ -228,25 +223,24 @@ ul>li {
 }
 
 .startWord {
-    left: 80px
+    left: 80px;
 }
 
 .targetWord {
-    left: 210px
+    left: 210px;
 }
 
 .weightWord {
-    left: 380px
+    left: 380px;
 }
 
 .visitedWord {
-    left: 550px
+    left: 550px;
 }
 
 .pathWord {
-    left: 680px
+    left: 680px;
 }
-
 
 /* 以下是board */
 #mainGrid {
@@ -291,10 +285,42 @@ ul>li {
 }
 
 .start {
-    background-image: url(triangletwo-right.svg);
+    background: url(triangletwo-right.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+.start2 {
+    background-image: url(spaceshiptwo-up.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.startEffect {
+    animation: startEffect;
+    animation-name: wall;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    z-index: 4;
+}
+
+@keyframes startEffect {
+    0% {
+        transform: scale(0.2);
+        transition-duration: 0.1s;
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .target {
@@ -380,6 +406,14 @@ td {
     /* transition-duration: 0.5s; */
 }
 
+.shortpath_get {
+    background-image: url(spaceshiptwo-up.svg);
+    background-color: #ffff00;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 @keyframes shortpathAni {
     0% {
         transform: scale(0.2);
@@ -389,6 +423,7 @@ td {
     50% {
         transform: scale(1.2);
         border-radius: 50%;
+
         background-color: #5eaaa8;
     }
 
@@ -396,6 +431,7 @@ td {
         transform: scale(1);
     }
 }
+
 
 @font-face {
     font-family: "Font Awesome 5 Brands";

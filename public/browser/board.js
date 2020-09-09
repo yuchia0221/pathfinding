@@ -5,6 +5,8 @@ import dijkstra from "http://localhost:8000/public/browser/Algorithms/dijkstra.j
 import greedy from "http://localhost:8000/public/browser/Algorithms/greedy.js";
 import AStar from "http://localhost:8000/public/browser/Algorithms/AStar.js";
 
+
+
 function Board(height, width) {
     this.height = height; // Height of the board
     this.width = width; // Width of the board
@@ -159,10 +161,14 @@ Board.prototype.add_event_listener = function () {
     let dfs_button = document.getElementById("startButtonDFS");
     dfs_button.addEventListener("click", (event) => {
         this.currentAlgorithms = "DFS";
+        let start = document.querySelector('.start');
+        start.className = "start2";
     });
     let bfs_button = document.getElementById("startButtonBFS");
     bfs_button.addEventListener("click", (event) => {
         this.currentAlgorithms = "BFS";
+        let start = document.querySelector('.start');
+        start.className = "start2";
     });
     let dij_button = document.getElementById("startButtonDijkstra");
     dij_button.addEventListener("click", (event) => {
@@ -215,9 +221,11 @@ Board.prototype.add_event_listener = function () {
             this.set_random_weight();
         }
     });
-
-
 };
+
+
+
+
 
 Board.prototype.find_path = function () {
     if (this.currentAlgorithms === "DFS") {
@@ -303,14 +311,48 @@ Board.prototype.draw_short_path = async function () {
     this.Drawing = true;
     const result = await this.draw_visited_node();
     console.log(this.path);
+    
     for (var i = 0; i < this.path.length; i++) {
         let currentNode = document.getElementById(this.path[i].location);
-        if (currentNode.className === "visited") {
+        if (currentNode.className === "visited" || currentNode.className === "target") {
             await sleep(30);
-            currentNode.className = "shortpath";
+            currentNode.className = "shortpath"
         }
-    }
+        if (i > 1) {
+            let previousNode = document.getElementById(this.path[i - 1].location);
+            if (previousNode.className === "shortpath") {
+                    await sleep(30);
+                    previousNode.className = "shortpath_get";
+                }
+         if (i > 2) {
+                let previousNode = document.getElementById(this.path[i - 2].location);
+                if (previousNode.className === "shortpath_get") {
+                    await sleep(30);
+                    previousNode.className = "shortpath";
+                }
+            }
+        }
     this.Drawing = false;
+};
+
+
+
+    
+
+// Board.prototype.changeshortpath = async function () {
+//     for (var i = 0; i < this.path.length; i++) {
+//         let currentNode = document.getElementById(this.path[i].location);
+//         if (currentNode.className ==="shortpath") {
+//             await sleep(10);
+//             currentNode.className ="shortpath_get"
+//         }
+//         await sleep(10);
+//         if (currentNode.className ==="shortpath_get") {
+//             await sleep(30);
+//             currentNode.className ="shortpath"
+//         }
+//     }
+
 };
 
 Board.prototype.clear_path = function () {
@@ -405,3 +447,5 @@ let height = Math.floor(screen.height / 40);
 let width = Math.floor(screen.width / 25);
 let newBoard = new Board(height, width);
 newBoard.initialize();
+
+export default Board;
