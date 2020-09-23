@@ -11,7 +11,7 @@ function Board(height, width) {
     this.speed = "fast"; // The speed of running the path 'fast' 'normal' 'slow'
     this.start = new Node(Math.floor(this.height / 2), Math.floor(this.width / 4), "start", null); // Start point of the path
     this.target = new Node(Math.floor(this.height / 2), Math.floor((3 * this.width) / 4), "target", null); // Target of the path
-    this.currentAlgorithms; // The Algorithm user choose
+    this.currentAlgorithms = null; // The Algorithm user choose
     this.wallNode = []; // Record the id of the wall node
     this.boardTwoD = [];
     this.path = [];
@@ -187,7 +187,8 @@ Board.prototype.add_event_listener = function () {
 
     let driver_button = document.getElementById("driverButton");
     driver_button.addEventListener("click", (event) => {
-        if (this.showingPath === false) {
+        if (this.showingPath === false && this.currentAlgorithms != null) {
+            console.log("hi");
             this.showingPath = true;
             this.draw_short_path();
         }
