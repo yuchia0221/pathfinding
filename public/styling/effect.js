@@ -1,3 +1,7 @@
+
+import Board from "http://localhost:8000/public/browser/board.js";
+
+
 $("#startButtonDijkstra").click(function () {
     $("#algorithmsOption").text($(this).text());
 });
@@ -58,3 +62,7 @@ $("#startButtonBFS").click(function () {
 $("#startButtonDFS").click(function () {
     $("#algorithmsOption").text($(this).text());
 });
+
+
+
+
