@@ -50,8 +50,6 @@ Board.prototype.set_node = function (row, column, father) {
 
 Board.prototype.create_grid = function () {
     let tableContent = "";
-    // this.width = Math.floor(screen.width / 25);
-    // this.height = Math.floor(screen.height / 20);
     for (var row = 0; row < this.height; row++) {
         let rowContent = `<tr id="row${row}">`;
         for (var column = 0; column < this.width; column++) {
@@ -254,8 +252,6 @@ Board.prototype.find_path = function () {
     } else if (this.currentAlgorithms === "AStar") {
         AStar(this.start, this.target, this.boardTwoD, this.visitedList);
         var currentNode = this.boardTwoD[this.target.row][this.target.column];
-        // console.log(currentNode.location);
-        // console.log(this.start.location);
         while (currentNode.location != this.start.location) {
             let node = currentNode.father;
             this.path.unshift(node);
@@ -336,20 +332,6 @@ Board.prototype.draw_short_path = async function () {
             break;
         }
     }
-
-    // Board.prototype.changeshortpath = async function () {
-    //     for (var i = 0; i < this.path.length; i++) {
-    //         let currentNode = document.getElementById(this.path[i].location);
-    //         if (currentNode.className ==="shortpath") {
-    //             await sleep(10);
-    //             currentNode.className ="shortpath_get"
-    //         }
-    //         await sleep(10);
-    //         if (currentNode.className ==="shortpath_get") {
-    //             await sleep(30);
-    //             currentNode.className ="shortpath"
-    //         }
-    //     }
 };
 
 Board.prototype.clear_path = function () {
@@ -369,6 +351,9 @@ Board.prototype.clear_path = function () {
         }
     }
     this.set_twoD_board();
+    document.getElementById(this.target.location).className = "target";
+
+
     this.showingPath = false;
 };
 
