@@ -1,29 +1,30 @@
 {
-    "name": "pathfinding",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "dependencies": {
-        "bootstrap": "^4.0.0-beta.2",
-        "express": "^4.17.1",
-        "jquery": "^3.5.1",
-        "js-priority-queue": "^0.1.5",
-        "nodemon": "^2.0.4",
-        "popper.js": "^1.16.1"
-    },
-    "devDependencies": {},
-    "scripts": {
-        "nodemon": "nodemon index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/yuchia0221/pathfinding.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/yuchia0221/pathfinding/issues"
-    },
-    "homepage": "https://github.com/yuchia0221/pathfinding#readme"
+  "name": "pathfinding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^4.0.0-beta.2",
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "js-priority-queue": "^0.1.5",
+    "nodemon": "^2.0.4",
+    "popper.js": "^1.16.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "nodemon": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuchia0221/pathfinding.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuchia0221/pathfinding/issues"
+  },
+  "homepage": "https://github.com/yuchia0221/pathfinding#readme"
 }
